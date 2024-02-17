@@ -1,6 +1,7 @@
 const express = require('express');
 const {UserModel} = require('../model/user.model');
 
+require('dotenv').config()
 const userRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -54,30 +55,36 @@ userRouter.get('/', async(req, res)=>{
      }
 })
 
-userRouter.post('/register', async(req, res)=>{
-
-    const {username, email, password}  = req.body;
+async function connectToDatabaseAndHandleRequest(req, res) {
     try {
-        const newUser =await  UserModel.findOne({email});
-        if(newUser){
-            res.send({msg:"user already exists"});
-        }
-        else {
-            bcrypt.hash(password, 8, async(err, hash)=>{
-                if(err){
-                    res.status(502).json({msg:"error hasing password"});
+        // Ensure that the MongoDB connection is established before executing the query
+        await mongoose.connect(process.env.mongourl);
+
+        const { username, email, password } = req.body;
+
+        const newUser = await UserModel.findOne({ email });
+        if (newUser) {
+            res.send({ msg: "user already exists" });
+        } else {
+            bcrypt.hash(password, 8, async (err, hash) => {
+                if (err) {
+                    res.status(502).json({ msg: "error hashing password" });
+                } else if (hash) {
+                    const user = new UserModel({ username, email, password: hash });
+                    await user.save();
+                    res.send({ msg: "user has been registered" });
                 }
-                else if(hash) {
-                    const user = new UserModel({username, email, password: hash});
-                        await user.save();
-                        res.send({msg:"user has been registered"});
-                }
-            })
+            });
         }
     } catch (error) {
         console.log(error);
+        res.status(500).json({ msg: "Internal server error" });
     }
-})
+}
+
+userRouter.post('/register', async (req, res) => {
+    await connectToDatabaseAndHandleRequest(req, res);
+});
 
 
 // /**
