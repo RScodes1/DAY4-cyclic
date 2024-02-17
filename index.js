@@ -4,6 +4,7 @@ require('dotenv').config();
 const { connection } = require('./config/db');
 const { userRouter } = require('./routes/user.routes');
 const { noteRouter } = require('./routes/note.routes');
+const cors = require('cors');
 
 // const swaggerJsdoc = require('swagger-jsdoc');
 // const swaggerUI = require("swagger-ui-express")
@@ -35,7 +36,7 @@ const { noteRouter } = require('./routes/note.routes');
 app.use(express.json());
 app.use('/users', userRouter);
 app.use('/notes', noteRouter);
-
+app.use(cors());
 
 app.get('/',(req,res)=>{
     res.send({msg : "server has started"});
