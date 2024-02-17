@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 async function connectToDatabase() {
   try {
     await mongoose.connect(process.env.mongourl, {
-      bufferCommands: false, // Disable buffering
+         bufferCommands : true
     });
     console.log('Connected to MongoDB');
     
