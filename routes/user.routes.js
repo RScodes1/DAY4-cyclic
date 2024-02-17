@@ -55,7 +55,8 @@ userRouter.get('/', async(req, res)=>{
 })
 
 userRouter.post('/register', async(req, res)=>{
-    const {username, email, password, age}  = req.body;
+
+    const {username, email, password}  = req.body;
     try {
         const newUser =await  UserModel.findOne({email});
         if(newUser){
@@ -67,7 +68,7 @@ userRouter.post('/register', async(req, res)=>{
                     res.status(502).json({msg:"error hasing password"});
                 }
                 else if(hash) {
-                    const user = new UserModel({username, email, password: hash, age});
+                    const user = new UserModel({username, email, password: hash});
                         await user.save();
                         res.send({msg:"user has been registered"});
                 }
