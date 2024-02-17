@@ -4,7 +4,7 @@ require('dotenv').config();
 const { connection } = require('./config/db');
 const { userRouter } = require('./routes/user.routes');
 const { noteRouter } = require('./routes/note.routes');
-const cors = require('cors');
+const    cors = require('cors');
 
 // const swaggerJsdoc = require('swagger-jsdoc');
 // const swaggerUI = require("swagger-ui-express")
