@@ -1,10 +1,18 @@
 const express = require('express');
-const app = express();
-require('dotenv').config();
+const    cors = require('cors');
+
 const { connection } = require('./config/db');
 const { userRouter } = require('./routes/user.routes');
 const { noteRouter } = require('./routes/note.routes');
-const    cors = require('cors');
+
+
+require('dotenv').config();
+const app = express();
+app.use(express.json());
+
+app.use(cors());
+app.use('/users', userRouter);
+app.use('/notes', noteRouter);
 
 // const swaggerJsdoc = require('swagger-jsdoc');
 // const swaggerUI = require("swagger-ui-express")
@@ -32,11 +40,6 @@ const    cors = require('cors');
 
 // app.use('/apidocs', swaggerUI.serve, swaggerUI.setup(openapiSpecification));
 
-
-app.use(express.json());
-app.use('/users', userRouter);
-app.use('/notes', noteRouter);
-app.use(cors());
 
 app.get('/',(req,res)=>{
     res.send({msg : "server has started"});
