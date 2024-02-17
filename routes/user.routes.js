@@ -55,9 +55,10 @@ userRouter.get('/', async(req, res)=>{
 })
 
 userRouter.post("/register", async (req, res) => {
+
     const { username, email, password } = req.body;
     try {
-      bcrypt.hash(pass, 5, async (err, hash) => {
+      bcrypt.hash(password, 5, async (err, hash) => {
         if (hash) {
           const user = new UserModel({ username, email, password: hash });
           await user.save();
