@@ -41,9 +41,9 @@ app.get('/',(req,res)=>{
     res.send({msg : "server has started"});
 })
 
-app.listen(process.env.port, ()=>{
+app.listen(process.env.port, async()=>{
       try {
-         connection
+        await connection
         console.log('mongodb started');
         console.log(`server is running on port ${process.env.port}`);
       } catch (error) {
