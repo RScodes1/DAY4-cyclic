@@ -41,12 +41,12 @@ app.get('/',(req,res)=>{
     res.send({msg : "server has started"});
 })
 
-app.listen(process.env.port, ()=>{
-      // try {
-        // await connection
-        // console.log('mongodb started');
+app.listen(process.env.port, async()=>{
+      try {
+        await connection
+        console.log('mongodb started');
         console.log(`server is running on port ${process.env.port}`);
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      } catch (error) {
+        console.log(error);
+      }
 })
