@@ -42,6 +42,11 @@ app.get('/',(req,res)=>{
 })
 
 app.listen(process.env.port, async()=>{
-      
+      try {
+        await connection
         console.log('mongodb started');
+        console.log(`server is running on port ${process.env.port}`);
+      } catch (error) {
+        console.log(error);
+      }
 })
