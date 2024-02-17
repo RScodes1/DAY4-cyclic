@@ -53,24 +53,30 @@ userRouter.get('/', async(req, res)=>{
         res.send({"error": err});
      }
 })
+userRouter.post('/register', async(req, res)=> {
 
-userRouter.post("/register", async (req, res) => {
-
-    const { username, email, password } = req.body;
+    const {username, email, password } = req.body;
     try {
-      bcrypt.hash(password, 5, async (err, hash) => {
-        if (hash) {
-          const user = new UserModel({ username, email, password: hash });
-          await user.save();
-          res.status(200).send({ msg: "User created successfully", user });
-        } else {
-          res.status(400).send({ msg: "error creating the has", Error: err });
-        }
-      });
-    } catch (err) {
-      res.status(400).send("Something went wrong");
+         const existinguser = await UserModel.findOne({email});
+         if(existinguser){
+            res.status(401).json({msg: "User already exists"});
+         } else{
+            bcrypt.hash(password, 8, async(err, hash)=>{
+                if(err){
+                    res.send({err: "error hashing password"});
+                }
+                else if(hash){
+                    const newUser = new UserModel({username, email, password: hash});
+                    await newUser.save();
+                    res.send({"msg": "User has been registered"});
+                }
+            })
+         }
+
+    } catch (error) {
+        console.log("error", error);
     }
-  });
+})
 
 
 // /**
