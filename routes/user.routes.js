@@ -58,11 +58,6 @@ userRouter.post('/register', async(req, res)=>{
 
     const {username, email, password}  = req.body;
     try {
-        const newUser = await UserModel.findOne({email});
-        if(newUser){
-            res.send({msg:"user already exists"});
-        }
-        else {
             bcrypt.hash(password, 8, async(err, hash)=>{
                 if(err){
                     res.status(502).json({msg:"error hasing password"});
@@ -74,7 +69,7 @@ userRouter.post('/register', async(req, res)=>{
                 }
             })
         }
-    } catch (error) {
+     catch (error) {
         console.log(error);
     }
 })
