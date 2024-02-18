@@ -27,24 +27,25 @@ const bcrypt = require('bcrypt');
  */
 
 
-// /**
-//  * @swagger
-//  * /users:
-//  *  get:
-//  *      summary: This will get all the users data from database
-//  *      tags: [Users]
-//  *      responses:
-//  *          200:
-//  *              description: The list of all the users
-//  *              content:
-//  *                  application/json:
-//  *                      schema:
-//  *                          type: array
-//  *                          item:
-//  *                              $ref:"#/components/schemas/User"
-//  *          400:
-//  *               description: some error occured
-//  */
+/**
+ * @swagger
+ * /users:
+ *  get:
+ *      summary: This will get all the users data from database
+ *      tags: [Users]
+ *      responses:
+ *          200:
+ *              description: The list of all the users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          item:
+ *                              $ref:"#/components/schemas/User"
+ *          400:
+ *               description: some error occured
+ */
+
 userRouter.get('/', async(req, res)=>{
      try {
         const users = await UserModel.find()
@@ -53,6 +54,7 @@ userRouter.get('/', async(req, res)=>{
         res.send({"error": err});
      }
 })
+
 userRouter.post('/register', async(req, res)=> {
 
     const {username, email, password } = req.body;
