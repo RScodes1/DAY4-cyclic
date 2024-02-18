@@ -26,29 +26,60 @@ const noteRouter = express.Router();
  */
 
 /**
- * @swagger
- * /notes:
- *  post:
- *    summary: Create a new note
- *    tags: [Notes]
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Note'
- *    responses:
- *      201:
- *        description: Note created successfully
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Note'
- *      400:
- *        description: Bad request - Invalid note data
- *      500:
- *        description: Internal server error
- */
+* @swagger
+* /notes:
+*  post:
+*    summary: Create a new note
+*    tags: [Notes]
+*    security:
+*      - bearerAuth: []
+*    requestBody:
+*      required: true
+*      content:
+*        application/json:
+*          schema:
+*            type: object
+*            required:
+*              - title
+*              - body
+*            properties:
+*              title:
+*                type: string
+*                description: The title of the note
+*              body:
+*                type: string
+*                description: The body content of the note
+*    responses:
+*      201:
+*        description: Note created successfully
+*        content:
+*          application/json:
+*            schema:
+*              type: object
+*              properties:
+*                _id:
+*                  type: string
+*                  description: The ID of the created note
+*                title:
+*                  type: string
+*                  description: The title of the created note
+*                body:
+*                  type: string
+*                  description: The body content of the created note
+*                userID:
+*                  type: string
+*                  description: The ID of the user who created the note
+*                author:
+*                  type: string
+*                  description: The author of the note (taken from user data)
+*      400:
+*        description: Bad request - Invalid note data
+*      401:
+*        description: Unauthorized - User not authenticated
+*      500:
+*        description: Internal server error
+*/
+
 
 
 noteRouter.post('/', auth, async(req, res) => {
@@ -61,6 +92,33 @@ noteRouter.post('/', auth, async(req, res) => {
    }
 })
 
+/**
+* @swagger
+* /notes:
+*  get:
+*    summary: Get all notes for a specific user
+*    tags: [Notes]
+*    security:
+*      - bearerAuth: []
+*    responses:
+*      200:
+*        description: Retrieved notes successfully
+*        content:
+*          application/json:
+*            schema:
+*              type: object
+*              properties:
+*                notes:
+*                  type: array
+*                  items:
+*                    $ref: '#/components/schemas/Note'
+*      401:
+*        description: Unauthorized - User not authenticated
+*      500:
+*        description: Internal server error
+*/
+
+
 noteRouter.get('/', auth, async(req, res)=> {
     try {
         const notes = await NoteModel.find({userID : req.body.userID});
@@ -69,6 +127,51 @@ noteRouter.get('/', auth, async(req, res)=> {
         res.send({"error": error});
     }
 })
+
+/**
+ * @swagger
+ * /notes/{id}:
+ *  patch:
+ *    summary: Update a note by ID
+ *    tags: [Notes]
+ *    parameters:
+ *      - in: path
+ *        name: noteId
+ *        required: true
+ *        description: ID of the note to update
+ *        schema:
+ *          type: string
+ *    security:
+ *      - bearerAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Note'
+ *    responses:
+ *      200:
+ *        description: Note updated successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                msg:
+ *                  type: string
+ *                  description: Message confirming the update
+ *      400:
+ *        description: Bad request - Invalid note data or note ID
+ *      401:
+ *        description: Unauthorized - User not allowed to update the note
+ *      404:
+ *        description: Not found - Note with provided ID not found
+ *      500:
+ *        description: Internal server error
+ */
+
+
+
 noteRouter.patch('/:noteId', auth, async (req, res) => {
     const { noteId } = req.params;
     try {
@@ -86,6 +189,40 @@ noteRouter.patch('/:noteId', auth, async (req, res) => {
         res.status(500).send({ msg: "Internal server error" });
     }
 });
+
+/**
+* @swagger
+* /notes/{id}:
+*  delete:
+*      summary: Delete a note by ID
+*      tags: [Notes]
+*      parameters:
+*        - in: path
+*          name: noteId
+*          required: true
+*          description: ID of the note to delete
+*          schema:
+*            type: string
+*      security:
+*        - bearerAuth: []
+*      responses:
+*        200:
+*          description: Note deleted successfully
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  msg:
+*                    type: string
+*                    description: Message confirming the deletion
+*        401:  
+*           description: Unauthorized - User not allowed to delete the note
+*        404:
+*           description: Not found - Note with provided ID not found
+*        500:
+*           description: Internal server error
+*/
 
 noteRouter.delete('/:noteId',auth,  async(req, res)=> {
     
