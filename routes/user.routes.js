@@ -85,7 +85,7 @@ userRouter.post('/register', async(req, res)=> {
  * @swagger
  * /users/register:
  *  post:
- *      summary: This post the new user details data from database
+ *      summary: registers the new user details data to database
  *      tags: [Users]
  *      requestBody: 
  *          required: true
@@ -106,6 +106,34 @@ userRouter.post('/register', async(req, res)=> {
  */
 
 
+/**
+ * @swagger
+ * /users/login:
+ *  post:
+ *      summary: This logs in the correct user details data to database
+ *      tags: [Authentication]
+ *      requestBody: 
+ *          required: true
+ *          content:
+ *              application/json:
+ *              schema:
+ *                  $ref: "#/components/schemas/User"
+ *      responses:
+ *          200:
+ *              description: user authenticated successfully
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          type: object
+ *                          properties:
+ *                              token:
+ *                                  type: string   
+ *                                  description: JWT token for authenticated user                
+ *          400: 
+ *               description: internal server error
+ *          401
+ *               description: unauthorizaed - invalid credentials
+ */
 userRouter.post('/login', async(req, res)=>{
     const {email, password} =req.body;
     try {
@@ -127,33 +155,33 @@ userRouter.post('/login', async(req, res)=>{
     }
 })
 
-// /**
-// * @swagger
-// * /users/{id}:
-// *  patch:
-// *       summary: Update a user by ID
-// *       description: Update an existing user identified by their ID.
-// *       parameters:
-// *         - name: id
-// *           in: path
-// *           description: ID of the user to update
-// *           required: true
-// *           schema:
-// *             type: string
-// *         - name: body
-// *           in: body
-// *           description: Data to update the user with
-// *           required: true
-// *           content:
-// *             application/json:
-// *               schema:
-// *                 $ref: '#/components/schemas/User'
-// *       responses:
-// *         200:
-// *           description: Successfully updated user
-// *         404:
-// *           description: User not found
-// */
+/**
+* @swagger
+* /users/{id}:
+*  patch:
+*       summary: Update a user by ID
+*       description: Update an existing user identified by their ID.
+*       parameters:
+*         - name: id
+*           in: path
+*           description: ID of the user to update
+*           required: true
+*           schema:
+*             type: string
+*         - name: body
+*           in: body
+*           description: Data to update the user with
+*           required: true
+*           content:
+*             application/json:
+*               schema:
+*                 $ref: '#/components/schemas/User'
+*       responses:
+*         200:
+*           description: Successfully updated user
+*         404:
+*           description: User not found
+*/
 
 userRouter.patch('/:id', async(req,res)=>{
      const {id} = req.params
@@ -165,26 +193,26 @@ userRouter.patch('/:id', async(req,res)=>{
      }
 })
 
-// /** 
-// * @swagger  
-// * /users/{id}:
-// *   delete:
-// *     summary: Delete a user by ID
-// *     description: Delete an existing user identified by their ID.
-// *     parameters:
-// *       - name: id
-// *         in: path
-// *         description: ID of the user to delete
-// *         required: true
-// *         schema:
-// *           type: string
-// *     responses:
-// *       204:
-// *         description: User deleted successfully
-// *       404:
-// *         description: User not found
-// *
-
+/** 
+* @swagger  
+* /users/{id}:
+*   delete:
+*     summary: Delete a user by ID
+*     description: Delete an existing user identified by their ID.
+*     parameters:
+*       - name: id
+*         in: path
+*         description: ID of the user to delete
+*         required: true
+*         schema:
+*           type: string
+*     responses:
+*       204:
+*         description: User deleted successfully
+*       404:
+*         description: User not found
+*
+*/
 
 userRouter.delete('/:id', async(req,res)=>{
     const {id} = req.params
