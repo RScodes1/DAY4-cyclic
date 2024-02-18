@@ -29,7 +29,6 @@ const bcrypt = require('bcrypt');
 
 /**
  * @swagger
- * /users:
  *  get:
  *      summary: This will get all the users data from database
  *      tags: [Users]
@@ -81,29 +80,29 @@ userRouter.post('/register', async(req, res)=> {
 })
 
 
-// /**
-//  * @swagger
-//  * /users/register:
-//  *  post:
-//  *      summary: This post the new user details data from database
-//  *      tags: [Users]
-//  *      requestBody: 
-//  *          required: true
-//  *          content:
-//  *              application/json:
-//  *              schema:
-//  *                  $ref: "#/components/schemas/User"
-//  *      responses:
-//  *          200:
-//  *              description: To add a new user to list of all the users
-//  *              content:
-//  *                  application/json:
-//  *                      schema:                
-//  *                          item:
-//  *                              $ref:"#/components/schemas/User"
-//  *          400: 
-//  *               description: internal server error
-//  */
+/**
+ * @swagger
+ * /users/register:
+ *  post:
+ *      summary: This post the new user details data from database
+ *      tags: [Users]
+ *      requestBody: 
+ *          required: true
+ *          content:
+ *              application/json:
+ *              schema:
+ *                  $ref: "#/components/schemas/User"
+ *      responses:
+ *          200:
+ *              description: To add a new user to list of all the users
+ *              content:
+ *                  application/json:
+ *                      schema:                
+ *                          item:
+ *                              $ref:"#/components/schemas/User"
+ *          400: 
+ *               description: internal server error
+ */
 
 
 userRouter.post('/login', async(req, res)=>{
