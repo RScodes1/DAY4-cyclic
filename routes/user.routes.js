@@ -103,6 +103,8 @@ userRouter.post('/register', async(req, res)=> {
  *                              $ref:"#/components/schemas/User"
  *          400: 
  *               description: internal server error
+ *          500:
+ *               description: Internal server error
  */
 
 
