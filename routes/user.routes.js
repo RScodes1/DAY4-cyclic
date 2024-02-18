@@ -131,7 +131,7 @@ userRouter.post('/register', async(req, res)=> {
  *                                  description: JWT token for authenticated user                
  *          400: 
  *               description: internal server error
- *          401
+ *          401:
  *               description: unauthorizaed - invalid credentials
  */
 userRouter.post('/login', async(req, res)=>{
