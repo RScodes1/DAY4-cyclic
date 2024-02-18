@@ -15,7 +15,7 @@ const bcrypt = require('bcrypt');
  *         id:
  *           type: string
  *           description: The auto-generated id of the user
- *         name:
+ *         username:
  *           type: string
  *           description:  the user name
  *         email:
