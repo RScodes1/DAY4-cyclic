@@ -29,6 +29,7 @@ const bcrypt = require('bcrypt');
 
 /**
  * @swagger
+ * /:
  *  get:
  *      summary: This will get all the users data from database
  *      tags: [Users]
