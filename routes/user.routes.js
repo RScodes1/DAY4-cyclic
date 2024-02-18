@@ -5,26 +5,26 @@ const userRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-// /**
-//  * @swagger
-//  * components:
-//  *   schemas:
-//  *     User:
-//  *       type: object
-//  *       properties:
-//  *         id:
-//  *           type: string
-//  *           description: The auto-generated id of the user
-//  *         name:
-//  *           type: string
-//  *           description:  the user name
-//  *         email:
-//  *           type: string
-//  *           description: the user email
-//  *         age:
-//  *           type: integer
-//  *           description: age of the user
-//  */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the user
+ *         name:
+ *           type: string
+ *           description:  the user name
+ *         email:
+ *           type: string
+ *           description: the user email
+ *         password:
+ *           type: string
+ *           description: the password given
+ */
 
 
 // /**
