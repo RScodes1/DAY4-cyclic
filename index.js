@@ -20,7 +20,7 @@ const options = {
     definition: {
       openapi: '3.0.0',
       info: {
-        title: 'User Management World',
+        title: 'notes taking app this is',
         version: '1.3.0',
       },
       servers:[
